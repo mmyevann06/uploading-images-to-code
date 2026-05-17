@@ -1,27 +1,16 @@
 const express = require("express");
-const multer = require("multer");
-const path = require("path");
+const cors = require("cors");
+
+const uploadRoutes = require("./routes/uploadRoutes");
 
 const app = express();
 
-// HTML göstər
-app.use(express.static(__dirname));
+app.use(cors());
+app.use(express.json());
 
-// uploads setup
-const storage = multer.diskStorage({
-    destination: "uploads/",
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage });
-
-// upload route
-app.post("/upload", upload.single("image"), (req, res) => {
-    res.send("Image uploaded successfully!");
-});
+// routes
+app.use("/", uploadRoutes);
 
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+  console.log("Server işləyir http://localhost:3000");
 });

@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload Image</title>
+  <title>Upload image</title>
 </head>
 <body>
 
-<h2>Upload Image</h2>
+<h2>Select image</h2>
 
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image">
-    <button type="submit">Upload</button>
+<form id="uploadForm">
+  <input type="file" name="image" />
+  <button type="submit">Download</button>
 </form>
+
+<script>
+  const form = document.getElementById("uploadForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const res = await fetch("http://localhost:3000/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    console.log(data);
+    alert("Uploaded!");
+  });
+</script>
 
 </body>
 </html>
